@@ -27,24 +27,6 @@ const SidebarFooter: React.FC<SidebarFooterProps> = ({ isCompact }) => {
           </div>
         )}
       </div>
-
-      {/* Кнопка развертывания в компактном режиме */}
-      {isCompact && (
-        <button
-          onClick={() => {/* нужно передать функцию через контекст или пропсы */}}
-          className="w-full mt-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          title="Развернуть меню"
-        >
-          <svg
-            className="w-5 h-5 text-gray-600 dark:text-gray-300 mx-auto"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      )}
     </div>
   );
 };

@@ -26,6 +26,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       <div
         onClick={onClick}
         className={`
+          text-white hover:text-blue-800
           flex items-center p-3 rounded-xl
           transition-all duration-200
           cursor-pointer group relative

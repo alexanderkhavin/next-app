@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
   return (
     <aside
       className={`
-        bg-blue-900
+        bg-blue-800 dark:bg-black
         h-full
         flex flex-col
         transition-all duration-300 ease-in-out
@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
       `}
     >
       <SidebarHeader isCompact={isCompact} onToggle={onToggle} />
-      
       <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto">
         {menuItems.map((item) => (
           <SidebarItem

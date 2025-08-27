@@ -1,7 +1,18 @@
 // app/page.tsx
-import LayoutWithSidebar from "./components/LayoutWithSidebar";
+import ApplicationTable from "@/widgets/ApplicationTable/ui/ApplicationTable";
+import LayoutWithSidebar from "../widgets/LayoutWithSidebar";
 
 export default function Home() {
+  const mock = [
+    {
+    id: 1,
+    status: 'approved',
+    date: '2025-08-27',
+    type: 'Доступ в инспекцию',
+    branch: 'KO',
+    signer: 'xcjvjvxjc'
+}
+  ]
   return (
     <LayoutWithSidebar>
       <div>
@@ -11,11 +22,8 @@ export default function Home() {
         </p>
         {/* Добавьте больше контента для теста */}
         <div className="mt-6 space-y-4">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-              <p>Карточка контента #{i + 1}</p>
-            </div>
-          ))}
+
+          <ApplicationTable applications={mock} />
         </div>
       </div>
     </LayoutWithSidebar>
