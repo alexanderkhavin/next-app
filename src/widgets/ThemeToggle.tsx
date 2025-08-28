@@ -1,6 +1,7 @@
 // components/ThemeToggle.tsx
 'use client';
 
+import { Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function ThemeToggle() {
@@ -23,16 +24,16 @@ export default function ThemeToggle() {
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 shadow-sm hover:shadow-md"
-      title={isDark ? 'Переключить на светлую тему' : 'Переключить на темную тему'}
-    >
-      {isDark ? (
-        <span className="w-5 h-5 block text-yellow-400">☀️</span>
-      ) : (
-        <span className="w-5 h-5 block text-gray-600">🌙</span>
-      )}
-    </button>
+<button
+  onClick={toggleTheme}
+  className="p-2 rounded-lg bg-blue-800 dark:bg-gray-800 hover:bg-blue-700 dark:hover:bg-gray-700 transition-all duration-300 shadow-sm hover:shadow-md text-center"
+  title={isDark ? 'Переключить на светлую тему' : 'Переключить на темную тему'}
+>
+  {isDark ? (
+    <span className="w-5 h-5 cursor-pointer"><Sun color="#ffffff" /></span>
+  ) : (
+    <span className="w-5 h-5 cursor-pointer"><Moon color="#ffffff" /></span>
+  )}
+</button>
   );
 }

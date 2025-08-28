@@ -2,12 +2,13 @@
 'use client';
 
 import Link from 'next/link';
+import { JSXElementConstructor, ReactElement, ReactNode } from 'react';
 
 interface SidebarItemProps {
   item: {
     id: string;
     label: string;
-    icon: string;
+    icon: ReactNode;
     href: string;
   };
   isActive: boolean;
@@ -26,7 +27,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       <div
         onClick={onClick}
         className={`
-          text-white hover:text-blue-800
+          text-white mt-2
           flex items-center p-3 rounded-xl
           transition-all duration-200
           cursor-pointer group relative
@@ -34,7 +35,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           ${
             isActive
               ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              : 'text-gray-600 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-gray-700'
           }
         `}
         title={isCompact ? item.label : undefined}

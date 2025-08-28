@@ -5,6 +5,7 @@ import { useState } from 'react';
 import SidebarHeader from './SidebarHeader';
 import SidebarItem from './SidebarItem';
 import SidebarFooter from './SidebarFooter';
+import { CalendarCheck2, FileText, ShieldCheck } from "lucide-react";
 
 interface SidebarProps {
   isCompact?: boolean;
@@ -15,15 +16,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
   const [activeItem, setActiveItem] = useState('dashboard');
 
   const menuItems = [
-        { id: 'docs', label: 'Документы', icon: '🚀', href: '/docs' },
-        { id: 'access', label: 'Доступы', icon: '✅', href: '/accesse' },
-        { id: 'status', label: 'Статусы', icon: '👥', href: '/status' },
+        { id: 'docs', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/docs' },
+        { id: 'access', label: 'Доступы', icon: <ShieldCheck color="#ffffff" />, href: '/accesse' },
+        { id: 'status', label: 'Статусы', icon: <CalendarCheck2 color="#ffffff" />, href: '/status' },
     ];
 
   return (
     <aside
       className={`
-        bg-blue-800 dark:bg-black
+        bg-blue-800 dark:bg-gray-800
         h-full
         flex flex-col
         transition-all duration-300 ease-in-out
@@ -31,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
       `}
     >
       <SidebarHeader isCompact={isCompact} onToggle={onToggle} />
-      <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-3 space-y-2">
         {menuItems.map((item) => (
           <SidebarItem
             key={item.id}
