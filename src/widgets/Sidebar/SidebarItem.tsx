@@ -27,15 +27,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       <div
         onClick={onClick}
         className={`
-          text-white mt-2
-          flex items-center p-3 rounded-xl
+          flex items-center p-3 rounded-xl mt-3
           transition-all duration-200
           cursor-pointer group relative
           ${isCompact ? 'justify-center' : 'justify-start'}
           ${
             isActive
-              ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-gray-700'
+              ? 'bg-blue-700 dark:bg-gray-700 text-white dark:text-gray-300'
+              : 'text-white dark:text-gray-300 hover:bg-blue-700 dark:hover:bg-gray-700'
           }
         `}
         title={isCompact ? item.label : undefined}

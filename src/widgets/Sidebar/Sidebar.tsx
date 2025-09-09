@@ -1,7 +1,8 @@
 // components/sidebar/Sidebar.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import SidebarHeader from './SidebarHeader';
 import SidebarItem from './SidebarItem';
 import SidebarFooter from './SidebarFooter';
@@ -13,11 +14,19 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
-  const [activeItem, setActiveItem] = useState('dashboard');
+  const pathname = usePathname();
+  const [activeItem, setActiveItem] = useState('');
+
+  useEffect(() => {
+    if (pathname === '/documents') setActiveItem('documents');
+    else if (pathname === '/access') setActiveItem('access');
+    else if (pathname === '/status') setActiveItem('status');
+    else setActiveItem('');
+  }, [pathname]);
 
   const menuItems = [
-        { id: 'docs', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/docs' },
-        { id: 'access', label: 'Доступы', icon: <ShieldCheck color="#ffffff" />, href: '/accesse' },
+        { id: 'documents', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/docs' },
+        { id: 'access', label: 'Доступы', icon: <ShieldCheck color="#ffffff" />, href: '/access' },
         { id: 'status', label: 'Статусы', icon: <CalendarCheck2 color="#ffffff" />, href: '/status' },
     ];
 
