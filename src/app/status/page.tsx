@@ -1,5 +1,5 @@
 // app/status/page.tsx
-import LayoutWithSidebar from '@/widgets/LayoutWithSidebar';
+import LayoutWithSidebar from '@/components/LayoutWithSidebar';
 
 export default function StatusPage() {
   return (
@@ -57,6 +57,6 @@ export default function StatusPage() {
 }
 
 export const metadata = {
-  title: 'Статус системы - Моя система',
-  description: 'Мониторинг работы системы и компонентов',
+  title: 'Статусы',
+  description: 'Пока не понятно, зачем оно здесь, но таков был макет',
 };

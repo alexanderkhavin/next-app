@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
   }, [pathname]);
 
   const menuItems = [
-        { id: 'documents', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/docs' },
+        { id: 'documents', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/documents' },
         { id: 'access', label: 'Доступы', icon: <ShieldCheck color="#ffffff" />, href: '/access' },
         { id: 'status', label: 'Статусы', icon: <CalendarCheck2 color="#ffffff" />, href: '/status' },
     ];

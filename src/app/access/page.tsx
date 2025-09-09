@@ -1,5 +1,5 @@
 // app/access/page.tsx
-import LayoutWithSidebar from '@/widgets/LayoutWithSidebar';
+import LayoutWithSidebar from '@/components/LayoutWithSidebar';
 
 export default function AccessPage() {
   return (
@@ -50,6 +50,6 @@ export default function AccessPage() {
 }
 
 export const metadata = {
-  title: 'Управление доступом - Моя система',
+  title: 'Доступы',
   description: 'Управление пользователями и правами доступа',
 };

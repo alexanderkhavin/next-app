@@ -1,6 +1,5 @@
-// app/page.tsx
-import ApplicationTable from "@/widgets/ApplicationTable/ui/ApplicationTable";
-import LayoutWithSidebar from "../../widgets/LayoutWithSidebar";
+import ApplicationTable from "@/components/ApplicationTable/ApplicationTable";
+import LayoutWithSidebar from "../../components/LayoutWithSidebar";
 
 export default function Home() {
   const mock = [
@@ -117,3 +116,8 @@ export default function Home() {
     </LayoutWithSidebar>
   );
 }
+
+export const metadata = {
+  title: 'Документы',
+  description: 'Документы созданных заявок',
+};
