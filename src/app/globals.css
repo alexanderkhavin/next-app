@@ -6,7 +6,12 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 239, 245, 249;
   --background-end-rgb: 239, 245, 249;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  
+  /* Цвета для скролбара светлой темы */
+  --scrollbar-track-light: #f1f5f9;
+  --scrollbar-thumb-light: #cbd5e1;
+  --scrollbar-thumb-hover-light: #94a3b8;
 }
 
 p {
@@ -28,6 +33,138 @@ body {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 15, 23, 43;
   --background-end-rgb: 15, 23, 43;
+  
+  /* Цвета для скролбара темной темы */
+  --scrollbar-track-dark: #1e293b;
+  --scrollbar-thumb-dark: #475569;
+  --scrollbar-thumb-hover-dark: #64748b;
+}
+
+/* Базовые стили скроллбара для всего приложения */
+html {
+  /* Для WebKit браузеров */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-light);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-light);
+    border-radius: 4px;
+    border: 2px solid var(--scrollbar-track-light);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-light);
+  }
+
+  /* Для Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-light) var(--scrollbar-track-light);
+}
+
+.dark {
+  /* Для WebKit браузеров */
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-dark);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-dark);
+    border-color: var(--scrollbar-track-dark);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-dark);
+  }
+
+  /* Для Firefox */
+  scrollbar-color: var(--scrollbar-thumb-dark) var(--scrollbar-track-dark);
+}
+
+/* Утилитарные классы для кастомных скроллбаров */
+.scrollbar-custom {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-light);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-light);
+    border-radius: 4px;
+    border: 2px solid var(--scrollbar-track-light);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-light);
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-light) var(--scrollbar-track-light);
+
+  @dark {
+    &::-webkit-scrollbar-track {
+      background: var(--scrollbar-track-dark);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb-dark);
+      border-color: var(--scrollbar-track-dark);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover-dark);
+    }
+
+    scrollbar-color: var(--scrollbar-thumb-dark) var(--scrollbar-track-dark);
+  }
+}
+
+/* Компактный вариант скроллбара */
+.scrollbar-custom-compact {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--scrollbar-thumb-light) 50%, transparent);
+    border: 1px solid var(--scrollbar-track-light);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-light);
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb-light) 50%, transparent) transparent;
+
+  @dark {
+    &::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--scrollbar-thumb-dark) 50%, transparent);
+      border-color: var(--scrollbar-track-dark);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-dark);
+    }
+
+    scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb-dark) 50%, transparent) transparent;
+  }
 }
 
 .main {
@@ -37,9 +174,19 @@ body {
   align-items: flex-start;
 }
 
-select:focus{
+select:focus {
   outline: 0 !important;
   outline-color: transparent !important;
   outline-width: 0 !important;
   outline-style: none !important;
+}
+
+/* Убедимся, что все элементы с overflow имеют стилизованный скролл */
+.overflow-auto,
+.overflow-scroll,
+.overflow-x-auto,
+.overflow-y-auto,
+.overflow-x-scroll,
+.overflow-y-scroll {
+  @extend .scrollbar-custom;
 }

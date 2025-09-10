@@ -122,7 +122,7 @@ const TableWithControls = <T extends Record<string, any>>({
 
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="bg-blue-700 rounded-lg text-white text-sm text-center px-3 py-2 my-2 mx-2 flex-shrink-0 min-w-[145px] h-[38px] flex items-center justify-between gap-2 cursor-pointer">
+                        className="bg-blue-700 hover:bg-blue-600 rounded-lg text-white text-sm text-center px-3 py-2 my-2 mx-2 flex-shrink-0 min-w-[145px] h-[38px] flex items-center justify-between gap-2 cursor-pointer transition-all duration-200 ease-in-out">
                         <Plus color="#ffffff" size={16} />
                         <span>Создать заявку</span>
                     </button>
