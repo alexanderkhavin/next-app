@@ -7,7 +7,9 @@ import Table from '../Table/Table';
 import TablePagination from '../TablePagination/TablePagination';
 import { useSort } from '../../hooks/useSort';
 import { Plus } from 'lucide-react';
-import {Modal} from '@/shared/ui/Modal';
+import { Modal } from '@/shared/ui/Modal';
+import { requestTypes } from './mock';
+import { Field } from '@/shared/ui/Modal/types/modal';
 
 interface TableWithControlsProps<T extends Record<string, any>> {
     data: T[];
@@ -49,8 +51,136 @@ const TableWithControls = <T extends Record<string, any>>({
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(defaultPageSize);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedType, setSelectedType] = useState<string | null>(null);
+    const [formData, setFormData] = useState<Record<string, string>>({});
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
-    // 1. Сначала фильтруем данные по поиску
+    const validateForm = (): boolean => {
+        const newErrors: Record<string, string> = {};
+        const type = requestTypes.find(t => t.id === selectedType);
+
+        if (type) {
+            type.fields.forEach(field => {
+                if (field.required && !formData[field.name]?.trim()) {
+                    newErrors[field.name] = 'Это поле обязательно для заполнения';
+                }
+            });
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = () => {
+        if (selectedType && validateForm()) {
+            /*onSubmit({
+              type: selectedType,
+              ...formData,
+              createdAt: new Date().toISOString()
+            });*/
+            setSelectedType(null);
+            setFormData({});
+            setErrors({});
+        }
+    };
+
+    const renderField = (field: Field) => {
+        const error = errors[field.name];
+        switch (field.type) {
+            case 'textarea':
+                return (
+                    <textarea
+                        className={`w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white ${error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                            }`}
+                        rows={3}
+                        value={formData[field.name] || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                        placeholder={field.label}
+                    />
+                );
+            case 'select':
+                return (
+                    <select
+                        className={`w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white ${error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                            }`}
+                        value={formData[field.name] || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                    >
+                        <option value="">Выберите...</option>
+                        {field.options?.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
+                );
+            case 'number':
+                return (
+                    <input
+                        type="number"
+                        className={`w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white ${error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                            }`}
+                        value={formData[field.name] || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                        placeholder={field.label}
+                    />
+                );
+            default:
+                return (
+                    <input
+                        type="text"
+                        className={`w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white ${error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                            }`}
+                        value={formData[field.name] || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                        placeholder={field.label}
+                    />
+                );
+        }
+    };
+
+    const renderFormFields = () => {
+        const type = requestTypes.find(t => t.id === selectedType);
+        if (!type) return null;
+        return (
+            <div className="mt-6 space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {type.title}
+                </h3>
+
+                {type.fields.map((field) => (
+                    <div key={field.name}>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            {field.label}
+                            {field.required && <span className="text-red-500 ml-1">*</span>}
+                        </label>
+                        {renderField(field)}
+                        {errors[field.name] && (
+                            <p className="text-red-500 text-xs mt-1">{errors[field.name]}</p>
+                        )}
+                    </div>
+                ))}
+                <div className="flex gap-2 mt-6">
+                    <button
+                        onClick={handleSubmit}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                        Создать заявку
+                    </button>
+                    <button
+                        onClick={() => {
+                            setSelectedType(null);
+                            setFormData({});
+                            setErrors({});
+                        }}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+                    >
+                        Назад
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
+    // 1. Фильтруем данные по поиску
     const filteredData = useMemo(() => {
         if (!searchTerm) return data;
 
@@ -166,41 +296,33 @@ const TableWithControls = <T extends Record<string, any>>({
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="Пример модального окна"
+                title={selectedType ? 'Создание заявки' : 'Выбор типа заявки'}
                 size="xl"
+                onSubmit={() => handleSubmit()}
             >
-                <div className="space-y-4">
-                    <p className="text-gray-600 dark:text-white">
-                        Это содержимое модального окна. Здесь может быть любой контент:
-                        формы, текст, изображения и т.д.
-                    </p>
-                    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mt-3">
-                        <h4 className="font-medium mb-2">Дополнительная информация</h4>
-                        <p className="text-sm text-gray-600 dark:text-white">
-                            Модальное окно поддерживает различные размеры и автоматически
-                            блокирует прокрутку фонового контента.
-                        </p>
+                {!selectedType ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {requestTypes.map((type) => (
+                            <div
+                                key={type.id}
+                                onClick={() => setSelectedType(type.id)}
+                                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 cursor-pointer hover:border-blue-300 dark:hover:border-blue-600 transition-colors hover:shadow-md"
+                            >
+                                <div className="flex items-center mb-2">
+                                    <span className="text-2xl mr-3">{type.icon}</span>
+                                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                                        {type.title}
+                                    </h3>
+                                </div>
+                                <p className="text-sm text-gray-600 dark:text-gray-300">
+                                    {type.description}
+                                </p>
+                            </div>
+                        ))}
                     </div>
-                </div>
-
-                {/* Кастомный футер */}
-                <div className="flex items-center gap-3 mt-3">
-                    <button
-                        onClick={() => setIsModalOpen(false)}
-                        className="px-4 py-2 text-gray-600 dark:text-white hover:text-gray-800 transition-colors dark:hover:text-gray-200 cursor-pointer"
-                    >
-                        Отмена
-                    </button>
-                    <button
-                        onClick={() => {
-                            console.log('Действие выполнено!');
-                            setIsModalOpen(false);
-                        }}
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer"
-                    >
-                        Подтвердить
-                    </button>
-                </div>
+                ) : (
+                    renderFormFields()
+                )}
             </Modal>
         </div>
     );

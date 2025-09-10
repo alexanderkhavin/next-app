@@ -19,15 +19,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCompact = false, onToggle }) => {
 
   useEffect(() => {
     if (pathname === '/documents') setActiveItem('documents');
-    else if (pathname === '/access') setActiveItem('access');
-    else if (pathname === '/status') setActiveItem('status');
+    else if (pathname === '/admin') setActiveItem('admin');
     else setActiveItem('');
   }, [pathname]);
 
   const menuItems = [
         { id: 'documents', label: 'Документы', icon: <FileText color="#ffffff" />, href: '/documents' },
-        { id: 'access', label: 'Доступы', icon: <ShieldCheck color="#ffffff" />, href: '/access' },
-        { id: 'status', label: 'Статусы', icon: <CalendarCheck2 color="#ffffff" />, href: '/status' },
+        { id: 'admin', label: 'Администрирование', icon: <ShieldCheck color="#ffffff" />, href: '/admin' },
     ];
 
   return (
